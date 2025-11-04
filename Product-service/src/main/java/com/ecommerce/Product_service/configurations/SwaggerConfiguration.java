@@ -1,4 +1,4 @@
-package com.E_Commerce.Product_service.configurations;
+package com.ecommerce.Product_service.configurations;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

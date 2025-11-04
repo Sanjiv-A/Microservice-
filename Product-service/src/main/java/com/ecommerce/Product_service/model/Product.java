@@ -1,4 +1,4 @@
-package com.E_Commerce.Product_service.model;
+package com.ecommerce.Product_service.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

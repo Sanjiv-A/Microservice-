@@ -1,7 +1,7 @@
-package com.E_Commerce.Product_service.controller;
+package com.ecommerce.Product_service.controller;
 
-import com.E_Commerce.Product_service.model.Product;
-import com.E_Commerce.Product_service.repository.ProductRepo;
+import com.ecommerce.Product_service.model.Product;
+import com.ecommerce.Product_service.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

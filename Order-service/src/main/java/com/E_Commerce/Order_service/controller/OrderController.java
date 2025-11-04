@@ -1,13 +1,10 @@
 package com.E_Commerce.Order_service.controller;
-
 import com.E_Commerce.Order_service.dto.OrderResponseDTO;
-import com.E_Commerce.Order_service.dto.ProductDTO;
 import com.E_Commerce.Order_service.model.Order;
-import com.E_Commerce.Order_service.repository.OrderRepository;
+import com.E_Commerce.Order_service.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -15,42 +12,36 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    @Autowired
-    private OrderRepository orderRepository;
 
     @Autowired
-    private WebClient.Builder webClientBuilder;
+    private OrderService orderService;
 
 
-    //Method to placeOrder
-    @PostMapping("/placeOrder")
-    public Mono<ResponseEntity<OrderResponseDTO>> placeOrder(@RequestBody Order order){
-
-        return webClientBuilder.build().get().uri("http://localhost:8081/products/" + order.getProductId())
-                .retrieve().bodyToMono(ProductDTO.class).map(productDTO -> {
-                    OrderResponseDTO responseDTO =  new OrderResponseDTO();
-
-                    responseDTO.setProductId(order.getProductId());
-                    responseDTO.setQuantity(order.getQuantity());
-
-                    //Set product Details
-                    responseDTO.setProductName(productDTO.getName());
-                    responseDTO.setProductPrice(productDTO.getPrice());
-                    responseDTO.setTotalPrice(order.getQuantity() * productDTO.getPrice());
-
-                    //save Order details to DB
-                    orderRepository.save(order);
-                    responseDTO.setOrderId(order.getId());
-
-                    return ResponseEntity.ok(responseDTO);
-                });
 
 
+    // Place new order
+    @PostMapping("/place")
+    public Mono<ResponseEntity<OrderResponseDTO>> placeOrder(@RequestBody Order order) {
+        return orderService.placeOrder(order)
+                .map(ResponseEntity::ok);
     }
 
-    //Get All Orders
+    // Get all orders
     @GetMapping
-    public List<Order> getAllOrders(){
-        return  orderRepository.findAll();
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
+    }
+
+    // Get order by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderById(id));
+    }
+
+    // Delete order
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.ok("Order deleted successfully");
     }
 }

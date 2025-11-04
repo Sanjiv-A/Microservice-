@@ -1,56 +1,46 @@
 package com.E_Commerce.Order_service.dto;
+import lombok.Data;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class OrderResponseDTO {
-
-    private  Long orderId ;
-
-    private  Long productId;
-
-    private int quantity;
-
-    private  double totalPrice;
-
-    //Product Details
+    private Long orderId;
+    private Long productId;
     private String productName;
+    private Double productPrice;
+    private Integer quantity;
+    private Double totalPrice;
+    private String status;
 
-    private double productPrice;
-
-
-    public Long getOrderId() {
-        return orderId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(Double productPrice) {
+        this.productPrice = productPrice;
     }
 
     public String getProductName() {
@@ -61,11 +51,19 @@ public class OrderResponseDTO {
         this.productName = productName;
     }
 
-    public double getProductPrice() {
-        return productPrice;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }

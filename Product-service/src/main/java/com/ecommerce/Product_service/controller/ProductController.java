@@ -1,8 +1,8 @@
 package com.ecommerce.Product_service.controller;
 
-import com.ecommerce.Product_service.model.Product;
-import com.ecommerce.Product_service.repository.ProductRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ecommerce.Product_service.dto.ProductDTO;
+import com.ecommerce.Product_service.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,27 +10,33 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductRepo productRepo;
+    private final ProductService productService;
+
 
 
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        return productRepo.save(product);
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO dto) {
+        return ResponseEntity.ok(productService.addProduct(dto));
     }
+
+    // ProductController.java
+    @PutMapping("/{id}/reduceStock")
+    public ResponseEntity<ProductDTO> reduceStock(@PathVariable Long id, @RequestParam int quantity) {
+        ProductDTO updatedProduct = productService.reduceStock(id, quantity);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
 
     @GetMapping
-    public List<Product> getAllproduct() {
-        return productRepo.findAll();
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
-        Product product = productRepo.findById(productId).orElseThrow(() -> new RuntimeException("Product Not Found "));
-        return ResponseEntity.ok(product);
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.getProductById(id));
     }
-
-
 }
